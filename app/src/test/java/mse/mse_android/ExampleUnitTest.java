@@ -1,4 +1,4 @@
-package com.a0mpurdy.AndroidMSE;
+package mse.mse_android;
 
 import org.junit.Test;
 
