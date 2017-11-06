@@ -1,4 +1,4 @@
-package mse.mse_android.hymn;
+package com.a0mpurdy.mse.hymn;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
-package mse.mse_android;
+package com.a0mpurdy.mse;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,11 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import mse.mse_android.fragment.LibraryFragment;
-import mse.mse_android.fragment.SearchFragment;
+import com.a0mpurdy.mse.fragment.LibraryFragment;
+import com.a0mpurdy.mse.fragment.SearchFragment;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        SearchFragment.OnFragmentInteractionListener,
+        LibraryFragment.OnFragmentInteractionListener {
 
     private SearchFragment searchFragment;
     private LibraryFragment libraryFragment;
@@ -96,5 +99,11 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        // Fix for error: must implement OnFragmentInteractionListener
+        // https://stackoverflow.com/questions/24777985/how-to-implement-onfragmentinteractionlistener
     }
 }
