@@ -11,13 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.a0mpurdy.mse.fragment.HymnFragment;
 import com.a0mpurdy.mse.fragment.LibraryFragment;
 import com.a0mpurdy.mse.fragment.SearchFragment;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchFragment.OnFragmentInteractionListener,
-        LibraryFragment.OnFragmentInteractionListener {
+        LibraryFragment.OnFragmentInteractionListener,
+        HymnFragment.OnFragmentInteractionListener {
 
     private SearchFragment searchFragment;
     private LibraryFragment libraryFragment;

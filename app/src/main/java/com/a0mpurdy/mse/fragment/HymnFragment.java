@@ -3,12 +3,14 @@ package com.a0mpurdy.mse.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,12 +23,10 @@ import com.a0mpurdy.mse.R;
 public class HymnFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_CACHE = "cache";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private HymnBookCache mCache;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,16 +38,14 @@ public class HymnFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param cache Hymn book cache
      * @return A new instance of fragment HymnFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HymnFragment newInstance(String param1, String param2) {
+    public static HymnFragment newInstance(HymnBookCache cache) {
         HymnFragment fragment = new HymnFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_CACHE, cache);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,9 +53,9 @@ public class HymnFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mCache = (HymnBookCache) getArguments().getSerializable(ARG_CACHE);
         }
     }
 
@@ -65,7 +63,16 @@ public class HymnFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hymn, container, false);
+        View v = inflater.inflate(R.layout.fragment_hymn, container, false);
+        int hymnNumber = 248;
+        TextView hymnNumberTv = v.findViewById(R.id.number);
+        hymnNumberTv.setText(hymnNumber + "");
+//        ((TextView) v.findViewById(R.id.number)).setText(hymnNumber);
+        TextView verses = v.findViewById(R.id.verse1);
+        String verseText = mCache.getHymnBook("hymns1962.ser", getActivity().getAssets()).getHymn(hymnNumber).getVerseText();
+        verses.setText(verseText);
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

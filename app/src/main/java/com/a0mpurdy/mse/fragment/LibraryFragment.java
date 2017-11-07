@@ -7,8 +7,10 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +29,10 @@ public class LibraryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Button tempHymnButton;
+
+    private HymnBookCache mHymnBookCache;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,13 +65,23 @@ public class LibraryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mHymnBookCache = new HymnBookCache();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_library, container, false);
+        // https://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
+        view.findViewById(R.id.hymns_library).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mHymnBookCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
+                getFragmentManager().beginTransaction().replace(R.id.content_home, HymnFragment.newInstance(mHymnBookCache)).commit();
+            }
+        });
 
-        return inflater.inflate(R.layout.fragment_library, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -3,46 +3,35 @@ package com.a0mpurdy.mse.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.a0mpurdy.mse.hymn.HymnBookCache;
-
 import com.a0mpurdy.mse.R;
 
 /**
- * A fragment with a Google +1 button.
+ * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SearchFragment.OnFragmentInteractionListener} interface
+ * {@link HymnBookFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SearchFragment#newInstance} factory method to
+ * Use the {@link HymnBookFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class HymnBookFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    // The request code must be 0 or greater.
-    private static final int PLUS_ONE_REQUEST_CODE = 0;
-    // The URL to +1.  Must be a valid URL.
-    private final String PLUS_ONE_URL = "http://developer.android.com";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    HymnBookCache hymnBookCache;
-
-    public SearchFragment() {
+    public HymnBookFragment() {
         // Required empty public constructor
-        hymnBookCache = new HymnBookCache();
     }
 
     /**
@@ -51,11 +40,11 @@ public class SearchFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
+     * @return A new instance of fragment HymnBookFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
+    public static HymnBookFragment newInstance(String param1, String param2) {
+        HymnBookFragment fragment = new HymnBookFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,37 +65,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.search_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "hymns1973", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                try {
-
-                    String[] pathsList = getActivity().getAssets().list("hymns");
-                    StringBuilder paths = new StringBuilder();
-                    for (int i = 0; i < pathsList.length; i++) {
-                        paths.append(pathsList[i] + "\n");
-                    }
-
-                    Log.d("assets", paths.toString());
-                } catch (Exception e){
-                    Log.e("Oops", e.getMessage());
-                }
-                hymnBookCache.getHymnBook("hymns1973.ser", getActivity().getAssets());
-                Log.d("[TEST]", hymnBookCache.getHymnBook("hymns1973.ser",getActivity().getAssets()).getNumHymns() + "");
-            }
-        });
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        return inflater.inflate(R.layout.fragment_hymn_book, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -147,5 +106,4 @@ public class SearchFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }
