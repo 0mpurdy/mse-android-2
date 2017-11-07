@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.a0mpurdy.mse.fragment.HymnFragment">
+    tools:context="com.a0mpurdy.mse.fragment.HymnBooksFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -11,23 +11,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/number"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            android:text="@string/select_hymn_book" />
 
-        <ScrollView
+        <Button
+            android:id="@+id/hymn1962_button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:text="1962" />
 
-            <TextView
-                android:id="@+id/verse1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-        </ScrollView>
-
+        <LinearLayout
+            android:id="@+id/hymn_books"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

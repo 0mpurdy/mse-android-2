@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.data.hymn.Hymn;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 /**
@@ -23,10 +24,10 @@ import com.a0mpurdy.mse.hymn.HymnBookCache;
 public class HymnFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_CACHE = "cache";
+    private static final String ARG_HYMN = "hymn";
 
     // TODO: Rename and change types of parameters
-    private HymnBookCache mCache;
+    private Hymn mHymn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,14 +39,14 @@ public class HymnFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param cache Hymn book cache
+     * @param hymn Hymn book cache
      * @return A new instance of fragment HymnFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HymnFragment newInstance(HymnBookCache cache) {
+    public static HymnFragment newInstance(Hymn hymn) {
         HymnFragment fragment = new HymnFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CACHE, cache);
+        args.putSerializable(ARG_HYMN, hymn);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,7 +56,7 @@ public class HymnFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mCache = (HymnBookCache) getArguments().getSerializable(ARG_CACHE);
+            mHymn = (Hymn) getArguments().getSerializable(ARG_HYMN);
         }
     }
 
@@ -64,12 +65,9 @@ public class HymnFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_hymn, container, false);
-        int hymnNumber = 248;
-        TextView hymnNumberTv = v.findViewById(R.id.number);
-        hymnNumberTv.setText(hymnNumber + "");
-//        ((TextView) v.findViewById(R.id.number)).setText(hymnNumber);
+        ((TextView) v.findViewById(R.id.number)).setText(mHymn.getNumber() + "");
         TextView verses = v.findViewById(R.id.verse1);
-        String verseText = mCache.getHymnBook("hymns1962.ser", getActivity().getAssets()).getHymn(hymnNumber).getVerseText();
+        String verseText = mHymn.getVerseText();
         verses.setText(verseText);
 
         return v;

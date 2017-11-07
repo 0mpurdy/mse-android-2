@@ -7,34 +7,31 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.a0mpurdy.mse.R;
-import com.a0mpurdy.mse.data.hymn.HymnBook;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HymnBookFragment.OnFragmentInteractionListener} interface
+ * {@link HymnBooksFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HymnBookFragment#newInstance} factory method to
+ * Use the {@link HymnBooksFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HymnBookFragment extends Fragment {
+public class HymnBooksFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_HYMN_BOOK = "hymnBook";
+    private static final String ARG_CACHE = "cache";
 
     // TODO: Rename and change types of parameters
-    private HymnBook mHymnBook;
-
-    private EditText mHymnNumber;
+    private HymnBookCache mCache;
 
     private OnFragmentInteractionListener mListener;
 
-    public HymnBookFragment() {
+    public HymnBooksFragment() {
         // Required empty public constructor
     }
 
@@ -46,10 +43,10 @@ public class HymnBookFragment extends Fragment {
      * @return A new instance of fragment HymnBooksFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HymnBookFragment newInstance(HymnBook cache) {
-        HymnBookFragment fragment = new HymnBookFragment();
+    public static HymnBooksFragment newInstance(HymnBookCache cache) {
+        HymnBooksFragment fragment = new HymnBooksFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_HYMN_BOOK, cache);
+        args.putSerializable(ARG_CACHE, cache);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,7 +55,7 @@ public class HymnBookFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mHymnBook = (HymnBook) getArguments().getSerializable(ARG_HYMN_BOOK);
+            mCache = (HymnBookCache) getArguments().getSerializable(ARG_CACHE);
         }
     }
 
@@ -66,24 +63,29 @@ public class HymnBookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_hymn_book, container, false);
-//        EditText numberField = ;
-//        numberField.setFocusable(true);
-        mHymnNumber = v.findViewById(R.id.hymn_number);
-        mHymnNumber.requestFocus();
-        v.findViewById(R.id.go_to_hymn).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        View v = inflater.inflate(R.layout.fragment_hymn_books, container, false);
+        LinearLayout booksLayout = v.findViewById(R.id.hymn_books);
 
-                int hymnNumber = Integer.parseInt(mHymnNumber.getText().toString());
-                getFragmentManager().beginTransaction().replace(R.id.content_home, HymnFragment.newInstance(mHymnBook.getHymn(hymnNumber))).commit();
+        String[] years = new String[] {"1903", "1932", "1951", "1962", "1973"};
+
+        for (String year : years) {
+            Button yearButton = new Button(getActivity());
+            yearButton.setText(year);
+            final String serialName = "hymns" + year + ".ser";
+            yearButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    mCache.getHymnBook(serialName, getActivity().getAssets());
+                    getFragmentManager().beginTransaction().replace(R.id.content_home, HymnBookFragment.newInstance(mCache.getHymnBook(serialName, getActivity().getAssets()))).commit();
+                }
+            });
+            booksLayout.addView(yearButton);
+        }
+
+        v.findViewById(R.id.hymn1962_button).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.content_home, HymnBookFragment.newInstance(mCache.getHymnBook("hymns1962.ser", getActivity().getAssets()))).commit();
             }
         });
-
-        // https://stackoverflow.com/questions/31779005/how-show-soft-keyboard-automatically-when-edittext-receives-focus
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
         return v;
     }
 
