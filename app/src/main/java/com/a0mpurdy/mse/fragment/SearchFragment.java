@@ -93,11 +93,11 @@ public class SearchFragment extends Fragment {
                     }
 
                     Log.d("assets", paths.toString());
-                } catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Oops", e.getMessage());
                 }
                 hymnBookCache.getHymnBook("hymns1973.ser", getActivity().getAssets());
-                Log.d("[TEST]", hymnBookCache.getHymnBook("hymns1973.ser",getActivity().getAssets()).getNumHymns() + "");
+                Log.d("[TEST]", hymnBookCache.getHymnBook("hymns1973.ser", getActivity().getAssets()).getNumHymns() + "");
             }
         });
 

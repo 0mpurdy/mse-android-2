@@ -12,7 +12,6 @@ import android.widget.EditText;
 
 import com.a0mpurdy.mse.R;
 import com.a0mpurdy.mse.data.hymn.HymnBook;
-import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,16 +72,20 @@ public class HymnBookFragment extends Fragment {
         mHymnNumber.requestFocus();
         v.findViewById(R.id.go_to_hymn).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 int hymnNumber = Integer.parseInt(mHymnNumber.getText().toString());
-                getFragmentManager().beginTransaction().replace(R.id.content_home, HymnFragment.newInstance(mHymnBook.getHymn(hymnNumber))).commit();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_home, HymnFragment.newInstance(mHymnBook.getHymn(hymnNumber)))
+                        .addToBackStack("hymn number " + hymnNumber)
+                        .commit();
             }
         });
 
         // https://stackoverflow.com/questions/31779005/how-show-soft-keyboard-automatically-when-edittext-receives-focus
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
         return v;
     }

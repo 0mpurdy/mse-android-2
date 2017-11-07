@@ -77,7 +77,11 @@ public class LibraryFragment extends Fragment {
         view.findViewById(R.id.hymns_library).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mHymnBookCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
-                getFragmentManager().beginTransaction().replace(R.id.content_home, HymnBooksFragment.newInstance(mHymnBookCache)).commit();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_home, HymnBooksFragment.newInstance(mHymnBookCache))
+                        .addToBackStack("hymn books")
+                        .commit();
             }
         });
 

@@ -56,6 +56,8 @@ public class HymnBooksFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCache = (HymnBookCache) getArguments().getSerializable(ARG_CACHE);
+        } else {
+            mCache = new HymnBookCache();
         }
     }
 
@@ -66,7 +68,7 @@ public class HymnBooksFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_hymn_books, container, false);
         LinearLayout booksLayout = v.findViewById(R.id.hymn_books);
 
-        String[] years = new String[] {"1903", "1932", "1951", "1962", "1973"};
+        String[] years = new String[]{"1903", "1932", "1951", "1962", "1973"};
 
         for (String year : years) {
             Button yearButton = new Button(getActivity());
@@ -75,7 +77,11 @@ public class HymnBooksFragment extends Fragment {
             yearButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     mCache.getHymnBook(serialName, getActivity().getAssets());
-                    getFragmentManager().beginTransaction().replace(R.id.content_home, HymnBookFragment.newInstance(mCache.getHymnBook(serialName, getActivity().getAssets()))).commit();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_home, HymnBookFragment.newInstance(mCache.getHymnBook(serialName, getActivity().getAssets())))
+                            .addToBackStack(serialName)
+                            .commit();
                 }
             });
             booksLayout.addView(yearButton);

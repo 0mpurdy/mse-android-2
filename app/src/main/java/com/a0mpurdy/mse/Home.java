@@ -36,7 +36,9 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         searchFragment = new SearchFragment();
-        getFragmentManager().beginTransaction().replace(R.id.content_home, searchFragment).commit();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_home, searchFragment)
+                .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,12 +88,16 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // TODO: Create dashboard fragment?
         if (id == R.id.nav_search) {
             if (searchFragment == null) searchFragment = new SearchFragment();
             getFragmentManager().beginTransaction().replace(R.id.content_home, searchFragment).commit();
         } else if (id == R.id.nav_library) {
             if (libraryFragment == null) libraryFragment = new LibraryFragment();
-            getFragmentManager().beginTransaction().replace(R.id.content_home, libraryFragment).commit();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_home, libraryFragment)
+                    .commit();
         } else if (id == R.id.nav_bookmarks) {
 
         } else if (id == R.id.nav_settings) {
