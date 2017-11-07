@@ -16,6 +16,7 @@ import java.util.HashMap;
  *
  * @author Michael Purdy
  */
+// TODO: possibly make into a service?
 public class HymnBookCache implements Serializable {
 
     private HashMap<String, HymnBook> hymnBooks;

@@ -45,6 +45,11 @@ public class HymnBook implements Serializable, IHymnBook {
     }
 
     public Hymn getHymn(int number) {
-        return hymns.get(number - 1);
+        try {
+            return hymns.get(number - 1);
+        } catch (IndexOutOfBoundsException e) {
+            Log.d("[DEBUG]", "out of bounds getting hymn");
+        }
+        return null;
     }
 }

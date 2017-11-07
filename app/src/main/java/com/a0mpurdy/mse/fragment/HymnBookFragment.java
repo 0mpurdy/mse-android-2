@@ -75,7 +75,12 @@ public class HymnBookFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-                int hymnNumber = Integer.parseInt(mHymnNumber.getText().toString());
+                int hymnNumber;
+                try {
+                    hymnNumber = Integer.parseInt(mHymnNumber.getText().toString());
+                } catch (NumberFormatException e) {
+                    hymnNumber = 1;
+                }
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.content_home, HymnFragment.newInstance(mHymnBook.getHymn(hymnNumber)))

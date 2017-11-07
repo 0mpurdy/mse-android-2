@@ -1,5 +1,6 @@
 package com.a0mpurdy.mse.fragment;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.a0mpurdy.mse.R;
 import com.a0mpurdy.mse.data.hymn.Hymn;
+import com.a0mpurdy.mse.data.hymn.HymnBook;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +71,11 @@ public class HymnFragment extends Fragment {
         String verseText = mHymn.getVerseText();
         verses.setText(verseText);
 
+        v.findViewById(R.id.jump_back).setOnClickListener(new ChangeHymnListener(mHymn, -10, getFragmentManager()));
+        v.findViewById(R.id.step_back).setOnClickListener(new ChangeHymnListener(mHymn, -1, getFragmentManager()));
+        v.findViewById(R.id.step_forward).setOnClickListener(new ChangeHymnListener(mHymn, 1, getFragmentManager()));
+        v.findViewById(R.id.jump_forward).setOnClickListener(new ChangeHymnListener(mHymn, 10, getFragmentManager()));
+
         return v;
     }
 
@@ -110,4 +117,29 @@ public class HymnFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+}
+
+class ChangeHymnListener implements View.OnClickListener {
+
+    Hymn mHymn;
+    int mChange;
+    FragmentManager fm;
+
+    ChangeHymnListener(Hymn hymn, int change, FragmentManager fm) {
+        mHymn = hymn;
+        mChange = change;
+        this.fm = fm;
+    }
+
+    @Override
+    public void onClick(View v) {
+        HymnBook parent = mHymn.getParentHymnBook();
+        Hymn newHym = parent.getHymn(mHymn.getNumber() + mChange);
+        if (newHym != null) {
+            fm.beginTransaction()
+                    .replace(R.id.content_home, HymnFragment.newInstance(newHym))
+                    .commit();
+        }
+    }
+
 }
