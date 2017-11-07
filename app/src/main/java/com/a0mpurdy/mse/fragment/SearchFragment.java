@@ -42,7 +42,6 @@ public class SearchFragment extends Fragment {
 
     public SearchFragment() {
         // Required empty public constructor
-        hymnBookCache = new HymnBookCache();
     }
 
     /**
@@ -84,19 +83,8 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 Snackbar.make(view, "hymns1973", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                try {
-
-                    String[] pathsList = getActivity().getAssets().list("hymns");
-                    StringBuilder paths = new StringBuilder();
-                    for (int i = 0; i < pathsList.length; i++) {
-                        paths.append(pathsList[i] + "\n");
-                    }
-
-                    Log.d("assets", paths.toString());
-                } catch (Exception e) {
-                    Log.e("Oops", e.getMessage());
-                }
-                hymnBookCache.getHymnBook("hymns1973.ser", getActivity().getAssets());
+                hymnBookCache = new HymnBookCache();
+                hymnBookCache.getIndex(getActivity().getAssets());
                 Log.d("[TEST]", hymnBookCache.getHymnBook("hymns1973.ser", getActivity().getAssets()).getNumHymns() + "");
             }
         });
