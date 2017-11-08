@@ -10,17 +10,22 @@ import java.util.ArrayList;
  */
 public class HymnBook implements Serializable, IHymnBook {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private String title;
     private String filename;
     private String code;
     private ArrayList<Hymn> hymns;
 
-    public HymnBook(String title, String filename, String code) {
+    public HymnBook(String title, String filename, String code, ArrayList<Hymn> hymns) {
         this.title = title;
         this.filename = filename;
         this.code = code;
+        this.hymns = hymns;
+    }
+
+    public HymnBook(String title, String filename, String code) {
+        this(title, filename, code, new ArrayList<Hymn>());
     }
 
     public void setTitle(String title) {

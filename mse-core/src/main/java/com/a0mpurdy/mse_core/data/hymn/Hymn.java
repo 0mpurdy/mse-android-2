@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Hymn implements Serializable {
 
-    private static final long serialVersionUID = 5565913617525938193L;
+    private static final long serialVersionUID = 2L;
 
     private HymnBook parentHymnBook;
     private int number;
