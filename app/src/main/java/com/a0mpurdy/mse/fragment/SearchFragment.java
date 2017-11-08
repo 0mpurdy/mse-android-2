@@ -16,6 +16,7 @@ import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 import com.a0mpurdy.mse.R;
 import com.a0mpurdy.mse.search.HymnSearchThread;
+import com.a0mpurdy.mse.search.TokenHelper;
 import com.a0mpurdy.mse.search.criteria.SearchCriteria;
 import com.a0mpurdy.mse.search.criteria.SearchScope;
 import com.a0mpurdy.mse.search.criteria.SearchType;
@@ -99,12 +100,12 @@ public class SearchFragment extends Fragment {
                 // create search criteria
                 SearchCriteria criteria = new SearchCriteria(SearchType.CONTAINS, SearchScope.PARAGRAPH, searchString);
 
-                HymnSearchThread sThread = new HymnSearchThread(criteria, hymnBookCache.getIndex(getActivity().getAssets()));
+                HymnSearchThread sThread = new HymnSearchThread(criteria, hymnBookCache.getIndex(getActivity().getAssets()), hymnBookCache, getActivity().getAssets());
 
                 sThread.run();
 
                 // popup toast of search string
-                Snackbar.make(view, criteria.getTokensAsString(), Snackbar.LENGTH_LONG)
+                Snackbar.make(view, TokenHelper.getTokensAsString(criteria.getTokens()), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
             }

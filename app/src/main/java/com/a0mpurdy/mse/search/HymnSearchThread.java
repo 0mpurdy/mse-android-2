@@ -1,11 +1,14 @@
 package com.a0mpurdy.mse.search;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.a0mpurdy.mse.common.log.LogLevel;
 import com.a0mpurdy.mse.common.log.LogRow;
 import com.a0mpurdy.mse.data.author.AuthorIndex;
 import com.a0mpurdy.mse.data.hymn.HymnBook;
+import com.a0mpurdy.mse.data.hymn.HymnVerse;
+import com.a0mpurdy.mse.hymn.HymnBookCache;
 import com.a0mpurdy.mse.search.criteria.SearchCriteria;
 import com.a0mpurdy.mse.search.results.IResult;
 
@@ -22,18 +25,23 @@ public class HymnSearchThread extends SingleSearchThread {
     SearchCriteria criteria;
     AuthorIndex authorIndex;
     ArrayList<LogRow> logRows;
+    HymnBookCache cache;
+    AssetManager am;
 
-    public HymnSearchThread(SearchCriteria criteria, AuthorIndex authorIndex) {
+    public HymnSearchThread(SearchCriteria criteria, AuthorIndex authorIndex, HymnBookCache cache, AssetManager am) {
         this.criteria = criteria;
         this.authorIndex = authorIndex;
         logRows = new ArrayList<>();
+        this.cache = cache;
+        this.am = am;
     }
 
     @Override
     public void run() {
 
-        Log.d("SEARCH", criteria.getTokensAsString());
+        Log.d("SEARCH", TokenHelper.getTokensAsString(criteria.getTokens()));
 
+        searchVerse(cache.getHymnBook("hymns1962.ser", am).getHymn(7).getVerse(1));
     }
 
     /**
@@ -66,6 +74,14 @@ public class HymnSearchThread extends SingleSearchThread {
             }
         }
         return false;
+    }
+
+    void searchVerse(HymnVerse verse) {
+
+        String[] verseTokens = TokenHelper.tokenizeString(verse.getVerseText());
+
+        Log.d("TEST", TokenHelper.getTokensAsString(verseTokens));
+
     }
 
     @Override

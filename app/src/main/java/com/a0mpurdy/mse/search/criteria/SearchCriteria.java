@@ -1,5 +1,7 @@
 package com.a0mpurdy.mse.search.criteria;
 
+import com.a0mpurdy.mse.search.TokenHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -55,8 +57,7 @@ public class SearchCriteria {
      * Tokens are uppercase, eg: Adam -> ADAM
      */
     private void makeTokens() {
-        searchTokens = searchString.toUpperCase().split(" ");
-        // TODO: handle non letter characters
+        searchTokens = TokenHelper.tokenizeString(searchString);
         // TODO: handle wildcard search (create list of matching words)
     }
 
@@ -65,21 +66,6 @@ public class SearchCriteria {
      */
     public String[] getTokens() {
         return searchTokens;
-    }
-
-    /**
-     * Get a comma separated list of the tokens
-     */
-    public String getTokensAsString() {
-        StringBuilder tokenString = new StringBuilder();
-        int i = 0;
-        for (String token : searchTokens) {
-            tokenString.append(token);
-            if (++i < searchTokens.length) {
-                tokenString.append(", ");
-            }
-        }
-        return tokenString.toString();
     }
 
     /**
