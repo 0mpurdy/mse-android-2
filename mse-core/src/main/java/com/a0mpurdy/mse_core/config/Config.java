@@ -3,18 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.a0mpurdy.mse.common.config;
+package com.a0mpurdy.mse_core.config;
 
-import com.a0mpurdy.mse.common.log.LogLevel;
-import com.a0mpurdy.mse.common.log.Logger;
-import com.a0mpurdy.mse.search.criteria.SearchType;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -27,17 +17,17 @@ public class Config {
 
 //    private final String configFilePath;
 
-    private Logger logger;
+//    private Logger logger;
 
     private static final String mseVersion = "3.0.6";
     private String resDir;
     private String resultsFileName;
     private String searchString;
-    private SearchType searchType;
+//    private SearchType searchType;
     private HashMap<String, Boolean> selectedAuthors;
     private boolean setup;
 
-    public Config(Logger logger) {
+//    public Config(Logger logger) {
 
 //        this.logger = logger;
 //
@@ -84,9 +74,9 @@ public class Config {
 //            logger.log(LogLevel.LOW, "Error reading config - setting defaults");
 //            setDefaults();
 //        }
-
-    }
-
+//
+//    }
+//
 //    private String getNextOption(BufferedReader br, String optionName) throws IOException {
 //        String option = "";
 //        try {

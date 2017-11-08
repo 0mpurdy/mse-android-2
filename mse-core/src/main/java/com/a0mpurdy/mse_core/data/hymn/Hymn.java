@@ -1,4 +1,4 @@
-package com.a0mpurdy.mse.data.hymn;
+package com.a0mpurdy.mse_core.data.hymn;
 
 import java.io.Serializable;
 import java.util.ArrayList;

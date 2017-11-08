@@ -1,6 +1,6 @@
 package com.a0mpurdy.mse.search.source;
 
-import com.a0mpurdy.mse.data.author.Author;
+import com.a0mpurdy.mse_core.data.author.Author;
 
 /**
  * A reference to a search result

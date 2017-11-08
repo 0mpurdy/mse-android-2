@@ -1,4 +1,4 @@
-package com.a0mpurdy.mse.common.log;
+package com.a0mpurdy.mse_core.log;
 
 /**
  * @author Michael Purdy

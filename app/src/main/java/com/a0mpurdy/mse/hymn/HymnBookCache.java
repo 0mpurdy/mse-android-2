@@ -3,9 +3,9 @@ package com.a0mpurdy.mse.hymn;
 import android.content.res.AssetManager;
 import android.util.Log;
 
-import com.a0mpurdy.mse.data.author.Author;
-import com.a0mpurdy.mse.data.author.AuthorIndex;
-import com.a0mpurdy.mse.data.hymn.HymnBook;
+import com.a0mpurdy.mse_core.data.author.Author;
+import com.a0mpurdy.mse_core.data.author.AuthorIndex;
+import com.a0mpurdy.mse_core.data.hymn.HymnBook;
 
 import java.io.FileInputStream;
 import java.io.IOException;

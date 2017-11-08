@@ -2,20 +2,21 @@ package com.a0mpurdy.mse.search;
 
 import java.util.ArrayList;
 
-import com.a0mpurdy.mse.common.config.Config;
-import com.a0mpurdy.mse.common.log.LogRow;
-import com.a0mpurdy.mse.data.author.Author;
-import com.a0mpurdy.mse.data.author.AuthorIndex;
+//import com.a0mpurdy.mse_core.common.config.Config;
+import com.a0mpurdy.mse_core.log.LogRow;
+import com.a0mpurdy.mse_core.data.author.Author;
+import com.a0mpurdy.mse_core.data.author.AuthorIndex;
 import com.a0mpurdy.mse.search.criteria.SearchType;
 import com.a0mpurdy.mse.search.source.Reference;
 
 /**
  * Cache for storing search parameters
+ *
  * @author michaelpurdy
  */
 public class AuthorSearchCache {
 
-    private Config cfg;
+//    private Config cfg;
 
     // public variables are a bad idea but if it works it is faster
     public AuthorIndex authorIndex;
@@ -49,8 +50,9 @@ public class AuthorSearchCache {
 
     // endregion
 
-    public AuthorSearchCache(Config cfg, AuthorIndex authorIndex, Search search) {
-        this.cfg = cfg;
+    //    public AuthorSearchCache(Config cfg, AuthorIndex authorIndex, Search search) {
+    public AuthorSearchCache(AuthorIndex authorIndex, Search search) {
+//        this.cfg = cfg;
         this.authorIndex = authorIndex;
         this.author = authorIndex.getAuthor();
         this.leastFrequentToken = null;
@@ -64,7 +66,7 @@ public class AuthorSearchCache {
         // this.searchType = search.getSearchType();
 
         // this.brl = new BibleResultsLogic();
-        this.reference = new Reference(author, 0,0,0,0);
+        this.reference = new Reference(author, 0, 0, 0, 0);
 
         tooFrequentTokens = new ArrayList<>();
 
@@ -158,7 +160,9 @@ public class AuthorSearchCache {
                 7 : some tokens not found and some tokens too frequent
          */
 
-        int lowestNumRefs = cfg.TOO_FREQUENT;
+//        int lowestNumRefs = cfg.TOO_FREQUENT;
+        // TODO: fix
+        int lowestNumRefs = 10000;
 
         // get the least frequent token and check that all the tokens have references
         for (String nextSearchToken : searchTokens) {
@@ -502,7 +506,7 @@ public class AuthorSearchCache {
     }
 
     public String getTooFrequentTokensList() {
-        boolean first =true;
+        boolean first = true;
         String list = "";
         for (String token : tooFrequentTokens) {
 

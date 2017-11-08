@@ -5,18 +5,16 @@
  */
 package com.a0mpurdy.mse.search;
 
-import com.a0mpurdy.mse.common.config.Config;
-import com.a0mpurdy.mse.common.log.LogLevel;
-import com.a0mpurdy.mse.common.log.LogRow;
-import com.a0mpurdy.mse.data.author.Author;
+//import com.a0mpurdy.mse_core.common.config.Config;
+import com.a0mpurdy.mse_core.log.LogLevel;
+import com.a0mpurdy.mse_core.log.LogRow;
+import com.a0mpurdy.mse_core.data.author.Author;
 import com.a0mpurdy.mse.search.criteria.SearchCriteria;
 import com.a0mpurdy.mse.search.criteria.SearchScope;
-import com.a0mpurdy.mse.search.criteria.SearchType;
 import com.a0mpurdy.mse.search.results.ErrorResult;
 import com.a0mpurdy.mse.search.results.IResult;
 import com.a0mpurdy.mse.search.results.Result;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
@@ -27,7 +25,7 @@ import java.util.regex.Pattern;
  */
 public class AuthorSearchThread extends SingleSearchThread {
 
-    private Config cfg;
+//    private Config cfg;
     private ArrayList<LogRow> searchLog;
     private AuthorSearchCache asc;
     private ArrayList<IResult> authorResults;
@@ -35,8 +33,9 @@ public class AuthorSearchThread extends SingleSearchThread {
     private ArrayList<String> sentences = new ArrayList<>();
     private SearchCriteria criteria;
 
-    public AuthorSearchThread(Config cfg, AuthorSearchCache asc, AtomicInteger progress) {
-        this.cfg = cfg;
+//    public AuthorSearchThread(Config cfg, AuthorSearchCache asc, AtomicInteger progress) {
+    public AuthorSearchThread(AuthorSearchCache asc, AtomicInteger progress) {
+//        this.cfg = cfg;
         this.searchLog = new ArrayList<>();
         this.authorResults = new ArrayList<>();
         this.progress = progress;

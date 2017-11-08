@@ -1,6 +1,10 @@
-package com.a0mpurdy.mse.common.log;
+package com.a0mpurdy.mse.log;
 
 import android.util.Log;
+
+import com.a0mpurdy.mse_core.log.ILogger;
+import com.a0mpurdy.mse_core.log.LogLevel;
+import com.a0mpurdy.mse_core.log.LogRow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,9 +25,9 @@ public class Logger implements ILogger {
     }
 
     public synchronized void log(LogLevel logLevel, String message) {
-        if (logLevel.value <= this.logLevel.value) {
+        if (logLevel.getValue() <= this.logLevel.getValue()) {
             Date date = new Date();
-            String tag = logLevel.tag;
+            String tag = logLevel.getTag();
             Log.d(tag, String.format("%s - %s", dateFormat.format(date), message));
         }
     }

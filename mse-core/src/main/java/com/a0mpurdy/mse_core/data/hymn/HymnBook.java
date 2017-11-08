@@ -1,9 +1,5 @@
-package com.a0mpurdy.mse.data.hymn;
+package com.a0mpurdy.mse_core.data.hymn;
 
-import android.util.Log;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -44,13 +40,8 @@ public class HymnBook implements Serializable, IHymnBook {
         return hymns.size();
     }
 
-    public Hymn getHymn(int number) {
-        try {
-            return hymns.get(number - 1);
-        } catch (IndexOutOfBoundsException e) {
-            Log.d("[DEBUG]", "out of bounds getting hymn");
-        }
-        return null;
+    public Hymn getHymn(int number) throws IndexOutOfBoundsException {
+        return hymns.get(number - 1);
     }
 
     public int getId() {

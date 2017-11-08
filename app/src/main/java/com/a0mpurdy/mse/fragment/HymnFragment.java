@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.a0mpurdy.mse.R;
-import com.a0mpurdy.mse.data.hymn.Hymn;
-import com.a0mpurdy.mse.data.hymn.HymnBook;
+import com.a0mpurdy.mse_core.data.hymn.Hymn;
+import com.a0mpurdy.mse_core.data.hymn.HymnBook;
 
 /**
  * A simple {@link Fragment} subclass.

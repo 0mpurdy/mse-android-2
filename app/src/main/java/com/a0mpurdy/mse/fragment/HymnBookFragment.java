@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.a0mpurdy.mse.R;
-import com.a0mpurdy.mse.data.hymn.HymnBook;
+import com.a0mpurdy.mse_core.data.hymn.HymnBook;
 
 /**
  * A simple {@link Fragment} subclass.

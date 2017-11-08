@@ -1,4 +1,4 @@
-package com.a0mpurdy.mse.data.hymn;
+package com.a0mpurdy.mse_core.data.hymn;
 
 /**
  * Created by mj_pu_000 on 07/11/2017.

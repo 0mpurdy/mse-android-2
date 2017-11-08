@@ -1,9 +1,7 @@
 package com.a0mpurdy.mse.search.results;
 
-import com.a0mpurdy.mse.data.author.Author;
+import com.a0mpurdy.mse_core.data.author.Author;
 import com.a0mpurdy.mse.search.source.Reference;
-
-import java.util.regex.Pattern;
 
 /**
  * Created by michaelpurdy on 30/12/2015.

@@ -1,4 +1,4 @@
-package com.a0mpurdy.mse.data.author;
+package com.a0mpurdy.mse_core.data.author;
 
 public enum Author implements IAuthor {
 

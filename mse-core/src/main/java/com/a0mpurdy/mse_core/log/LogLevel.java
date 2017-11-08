@@ -1,4 +1,4 @@
-package com.a0mpurdy.mse.common.log;
+package com.a0mpurdy.mse_core.log;
 
 /**
  * @author Michael Purdy
@@ -20,4 +20,11 @@ public enum LogLevel {
         this.value = value;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public String getTag() {
+        return tag;
+    }
 }
