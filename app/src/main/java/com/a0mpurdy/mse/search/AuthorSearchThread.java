@@ -8,9 +8,13 @@ package com.a0mpurdy.mse.search;
 import com.a0mpurdy.mse.common.config.Config;
 import com.a0mpurdy.mse.common.log.LogLevel;
 import com.a0mpurdy.mse.common.log.LogRow;
+import com.a0mpurdy.mse.data.author.Author;
+import com.a0mpurdy.mse.search.criteria.SearchCriteria;
+import com.a0mpurdy.mse.search.criteria.SearchScope;
 import com.a0mpurdy.mse.search.criteria.SearchType;
 import com.a0mpurdy.mse.search.results.ErrorResult;
 import com.a0mpurdy.mse.search.results.IResult;
+import com.a0mpurdy.mse.search.results.Result;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ public class AuthorSearchThread extends SingleSearchThread {
     private ArrayList<IResult> authorResults;
     private AtomicInteger progress;
     private ArrayList<String> sentences = new ArrayList<>();
+    private SearchCriteria criteria;
 
     public AuthorSearchThread(Config cfg, AuthorSearchCache asc, AtomicInteger progress) {
         this.cfg = cfg;
@@ -48,7 +53,7 @@ public class AuthorSearchThread extends SingleSearchThread {
 
     /**
      * Search a single author
-     *
+     * <p>
      * Search all the words to make sure that all the search tokens are in the author's
      * index. log any words that are too frequent, find the least frequent token and
      * record the number of infrequent words
@@ -62,8 +67,10 @@ public class AuthorSearchThread extends SingleSearchThread {
 
         // setup searchWords, searchTokens and leastFrequentTokens
         asc.setup(searchLog);
-        log(LogLevel.TRACE, "\tSearch strings: " + asc.printableSearchWords());
-        log(LogLevel.TRACE, "\tSearch tokens: " + asc.printableSearchTokens());
+
+        // TODO: replace
+        // log(LogLevel.TRACE, "\tSearch strings: " + asc.printableSearchWords());
+        // log(LogLevel.TRACE, "\tSearch tokens: " + asc.printableSearchTokens());
         log(LogLevel.TRACE, "\tLeast Frequent Token: " + asc.getLeastFrequentToken());
 
         if ((asc.getLeastFrequentToken() != null) && !asc.getTokenNotFound()) {
@@ -96,7 +103,9 @@ public class AuthorSearchThread extends SingleSearchThread {
             String error = "\t\t\t<p class=\"centered\">";
             if (asc.getTokenNotFound()) {
                 error += "Not all words were found in index.";
-                searchLog.add(new LogRow(LogLevel.LOW, "\tTokens in " + asc.author.getCode() + " not all found: " + asc.printableSearchTokens()));
+
+                // TODO: replace
+                // searchLog.add(new LogRow(LogLevel.LOW, "\tTokens in " + asc.author.getCode() + " not all found: " + asc.printableSearchTokens()));
             }
             if (asc.getTooFrequentTokens().size() > 0) {
                 error += "Some words appeared too frequently: " + asc.getTooFrequentTokensList();
@@ -124,11 +133,15 @@ public class AuthorSearchThread extends SingleSearchThread {
         searchLog.add(new LogRow(LogLevel.TRACE, "\tVol: " + currentVolumeNumber));
 
         // open the file
-        String filename = cfg.getResDir() + File.separator + FileHelper.getHtmlFile(asc.author, currentVolumeNumber, File.separator);
-        IFileReader fReader = new HtmlReader(filename, searchLog);
+
+        // TODO: replace
+        // String filename = cfg.getResDir() + File.separator + FileHelper.getHtmlFile(asc.author, currentVolumeNumber, File.separator);
+        // IFileReader fReader = new HtmlReader(filename, searchLog);
 
         // read first line
-        asc.line = fReader.readContentLine();
+
+        // TODO: replace
+        // asc.line = fReader.readContentLine();
 
         // set progress
         progress.addAndGet(1000 / asc.author.getNumVols());
@@ -139,21 +152,29 @@ public class AuthorSearchThread extends SingleSearchThread {
             asc.prevLine = "";
 
             // skip to next page and get the last line of the previous page
-            cPageNum = fReader.findNextAuthorPage(asc);
+
+            // TODO: replace
+            // cPageNum = fReader.findNextAuthorPage(asc);
 
             // if the page number is 0 log then error and break out
             if (cPageNum == 0) {
                 log(LogLevel.HIGH, "Could not find reference " + asc.reference.getShortReadableReference());
-                fReader.close();
+
+                // TODO: replacev
+                // fReader.close();
                 return false;
             }
 
             // get the first section
-            asc.currentSectionHeader = fReader.getFirstAuthorSectionHeader(asc);
+
+            // TODO: replace
+            // asc.currentSectionHeader = fReader.getFirstAuthorSectionHeader(asc);
 
             // search the page
             if (asc.currentSectionHeader != null) {
-                searchPage(results, asc, fReader);
+
+                // TODO: replace
+                // searchPage(results, asc, fReader);
             } else {
                 searchLog.add(new LogRow(LogLevel.HIGH, "NULL line " + asc.reference.getShortReadableReference()));
             }
@@ -167,12 +188,14 @@ public class AuthorSearchThread extends SingleSearchThread {
 
         } // finished references in volume
 
-        fReader.close();
+
+        // TODO: replace
+        // Reader.close();
         return true;
 
     }
 
-    private void searchPage(ArrayList<IResult> results, AuthorSearchCache asc, IFileReader htmlReader) {
+    private void searchPage(ArrayList<IResult> results, AuthorSearchCache asc) {
 
         boolean foundToken = false;
 
@@ -182,7 +205,8 @@ public class AuthorSearchThread extends SingleSearchThread {
         // while still on the same page (class != page-number)
         while (isNextSectionSearchable(asc.currentSectionHeader)) {
 
-            asc.line = htmlReader.getNextAuthorSection(asc);
+            // TODO: replace
+//            asc.line = htmlReader.getNextAuthorSection(asc);
 
             String section = asc.line;
 
@@ -190,7 +214,8 @@ public class AuthorSearchThread extends SingleSearchThread {
 
             foundToken = searchSection(results, section, asc) || foundToken;
 
-            asc.brl.setFoundDarby(foundToken);
+            // TODO: replace
+//            asc.brl.setFoundDarby(foundToken);
 
             // set the current line as the previous line if it is searchable
             if (isNextSectionSearchable(asc.currentSectionHeader)) {
@@ -199,16 +224,18 @@ public class AuthorSearchThread extends SingleSearchThread {
                 asc.prevLine = "";
             }
 
-            asc.currentSectionHeader = htmlReader.getNextSectionHeader(asc);
+            // TODO: replace
+//            asc.currentSectionHeader = htmlReader.getNextSectionHeader(asc);
         }
 
         if (!foundToken) {
             // if exact match only debug level as many references will not have exact matches
-            if (asc.getSearchType() == SearchType.MATCH) {
-                searchLog.add(new LogRow(LogLevel.DEBUG, "Did not find token " + asc.reference.getShortReadableReference()));
-            } else {
-                searchLog.add(new LogRow(LogLevel.LOW, "Did not find token " + asc.reference.getShortReadableReference()));
-            }
+
+            // TODO: replace
+            // if (asc.getSearchType() == SearchType.MATCH) {
+            searchLog.add(new LogRow(LogLevel.DEBUG, "Did not find token " + asc.reference.getShortReadableReference()));
+        } else {
+            searchLog.add(new LogRow(LogLevel.LOW, "Did not find token " + asc.reference.getShortReadableReference()));
         }
     }
 
@@ -254,34 +281,39 @@ public class AuthorSearchThread extends SingleSearchThread {
             boolean validScope;
 
             if (asc.getWildSearch()) {
-                validScope = SearchType.wildSearch(HtmlHelper.tokenizeLine(scope), asc.getSearchTokens());
+
+                // TODO: replace
+                // validScope = SearchType.wildSearch(HtmlHelper.tokenizeLine(scope), asc.getSearchTokens());
             } else {
-                String[] tokenizedLine = HtmlHelper.tokenizeLine(scope);
-                validScope = asc.getSearchType().search(tokenizedLine, asc.getSearchTokens());
+
+                // TODO: replace
+                // String[] tokenizedLine = HtmlHelper.tokenizeLine(scope);
+//                 validScope = asc.getSearchType().search(tokenizedLine, asc.getSearchTokens());
             }
 
+            // TODO: replace
             // if the current scope contains all search terms mark them and print it out (or one if it is a wildcard search)
-            if (validScope) {
-
-                validSection = true;
-
-                if (!(asc.author == Author.BIBLE)) {
-
-                    String markedLine = HtmlHelper.markLine(asc.author, new StringBuilder(scope), asc.getSearchWords(), "mse-mark");
-
-                    Result result;
-                    if (asc.author.equals(Author.HYMNS) && asc.notFoundCurrentHymnBook) {
-                        asc.notFoundCurrentHymnBook = false;
-                        result = new Result(asc.author, asc.reference.copy(), markedLine, asc.getSearchWords(),
-                                HtmlHelper.getFormattedHymnbookLink(asc));
-                    } else {
-                        result = new Result(asc.author, asc.reference.copy(), markedLine, asc.getSearchWords());
-                    }
-                    results.add(result);
-
-                    asc.incrementResults();
-                }
-            }
+//            if (validScope) {
+//
+//                validSection = true;
+//
+//                if (!(asc.author == Author.BIBLE)) {
+//
+//                    String markedLine = HtmlHelper.markLine(asc.author, new StringBuilder(scope), asc.getSearchWords(), "mse-mark");
+//
+//                    Result result;
+//                    if (asc.author.equals(Author.HYMNS) && asc.notFoundCurrentHymnBook) {
+//                        asc.notFoundCurrentHymnBook = false;
+//                        result = new Result(asc.author, asc.reference.copy(), markedLine, asc.getSearchWords(),
+//                                HtmlHelper.getFormattedHymnbookLink(asc));
+//                    } else {
+//                        result = new Result(asc.author, asc.reference.copy(), markedLine, asc.getSearchWords());
+//                    }
+//                    results.add(result);
+//
+//                    asc.incrementResults();
+//                }
+//            }
         }
 
         return validSection;
@@ -300,17 +332,19 @@ public class AuthorSearchThread extends SingleSearchThread {
     }
 
     private boolean isSentenceScope() {
-        return (asc.getSearchType() == SearchType.SENTENCE) || asc.getSearchType() == SearchType.MATCH || asc.getSearchType() == SearchType.PHRASE;
+        return criteria.getSearchScope() == SearchScope.SENTENCE;
     }
 
     private boolean isNextSectionSearchable(String sectionHeader) {
 
         if (asc.author.isMinistry()) {
             return sectionHeader.contains("class=\"heading\"") || sectionHeader.contains("class=\"paragraph\"") || sectionHeader.contains("class=\"footnote\"");
-        } else if (asc.author.equals(Author.BIBLE)) {
-            return sectionHeader.contains("<tr");
-        } else if (asc.author.equals(Author.HYMNS)) {
-            return sectionHeader.contains("class=\"verse-number\"");
+
+            // TODO: replace
+            // } else if (asc.author.equals(Author.BIBLE)) {
+//            return sectionHeader.contains("<tr");
+//        } else if (asc.author.equals(Author.HYMNS)) {
+//            return sectionHeader.contains("class=\"verse-number\"");
         } else {
             return false;
         }

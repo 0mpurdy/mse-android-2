@@ -50,4 +50,8 @@ public class SearchCriteria {
     public String getSearchString() {
         return searchString;
     }
+
+    public SearchScope getSearchScope() {
+        return searchScope;
+    }
 }

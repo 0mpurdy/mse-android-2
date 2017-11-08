@@ -9,7 +9,6 @@ import com.a0mpurdy.mse.data.author.AuthorIndex;
 import com.a0mpurdy.mse.search.criteria.SearchType;
 import com.a0mpurdy.mse.search.source.Reference;
 
-
 /**
  * Cache for storing search parameters
  * @author michaelpurdy
@@ -23,7 +22,9 @@ public class AuthorSearchCache {
     public Author author;
 
     public Reference reference;
-    public BibleResultsLogic brl;
+
+    // TODO: replace
+    // public BibleResultsLogic brl;
 
     // region search values
 
@@ -55,12 +56,14 @@ public class AuthorSearchCache {
         this.leastFrequentToken = null;
         this.numAuthorResults = 0;
 
-        this.searchString = search.getSearchString();
-        this.wildSearch = search.getWildSearch();
 
-        this.searchType = search.getSearchType();
+        // TODO: replace
+        // this.searchString = search.getSearchString();
+        // this.wildSearch = search.getWildSearch();
 
-        this.brl = new BibleResultsLogic();
+        // this.searchType = search.getSearchType();
+
+        // this.brl = new BibleResultsLogic();
         this.reference = new Reference(author, 0,0,0,0);
 
         tooFrequentTokens = new ArrayList<>();
@@ -132,7 +135,9 @@ public class AuthorSearchCache {
         if (getWildSearch()) {
             this.searchTokens = getSearchWords();
         } else {
-            this.searchTokens = HtmlHelper.tokenizeLine(getSearchString());
+
+            // TODO: replace
+            // this.searchTokens = HtmlHelper.tokenizeLine(getSearchString());
         }
     }
 
@@ -225,15 +230,19 @@ public class AuthorSearchCache {
     public void incrementResults() {
         if (author != Author.BIBLE) {
             numAuthorResults++;
-        } else if (brl.searchingDarby || !brl.foundDarby) {
-            numAuthorResults++;
+
+            // TODO: replace
+            // } else if (brl.searchingDarby || !brl.foundDarby) {
+            // numAuthorResults++;
         }
     }
 
     public void incrementSectionNumber() {
         switch (author) {
             case BIBLE:
-                reference.sectionNum += brl.verseNumIncrement();
+
+                // TODO: replace
+                // reference.sectionNum += brl.verseNumIncrement();
                 break;
             default:
                 reference.sectionNum++;
@@ -537,13 +546,14 @@ public class AuthorSearchCache {
 
     // region printables
 
-    public String printableSearchWords() {
-        return HtmlHelper.printableArray(searchWords);
-    }
+    // TODO: replace
+    // public String printableSearchWords() {
+//        return HtmlHelper.printableArray(searchWords);
+//    }
 
-    public String printableSearchTokens() {
-        return HtmlHelper.printableArray(searchTokens);
-    }
+//    public String printableSearchTokens() {
+//        return HtmlHelper.printableArray(searchTokens);
+//    }
 
     // endregion
 
