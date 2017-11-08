@@ -3,9 +3,10 @@ package com.a0mpurdy.mse.search.criteria;
 import java.util.ArrayList;
 
 /**
- * Created by mj_pu_000 on 07/11/2017.
+ * Criteria for a search in the MSE
+ *
+ * @author 0mpurdy@gmail.com
  */
-
 public class SearchCriteria {
 
     private String searchString;
@@ -64,6 +65,21 @@ public class SearchCriteria {
      */
     public String[] getTokens() {
         return searchTokens;
+    }
+
+    /**
+     * Get a comma separated list of the tokens
+     */
+    public String getTokensAsString() {
+        StringBuilder tokenString = new StringBuilder();
+        int i = 0;
+        for (String token : searchTokens) {
+            tokenString.append(token);
+            if (++i < searchTokens.length) {
+                tokenString.append(", ");
+            }
+        }
+        return tokenString.toString();
     }
 
     /**

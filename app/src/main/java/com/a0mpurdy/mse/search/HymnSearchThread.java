@@ -32,7 +32,7 @@ public class HymnSearchThread extends SingleSearchThread {
     @Override
     public void run() {
 
-        Log.d("SEARCH", criteria.getSearchString());
+        Log.d("SEARCH", criteria.getTokensAsString());
 
     }
 
