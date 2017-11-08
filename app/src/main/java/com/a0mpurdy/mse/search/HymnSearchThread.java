@@ -10,6 +10,7 @@ import com.a0mpurdy.mse.data.hymn.HymnBook;
 import com.a0mpurdy.mse.data.hymn.HymnVerse;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 import com.a0mpurdy.mse.search.criteria.SearchCriteria;
+import com.a0mpurdy.mse.search.criteria.SearchType;
 import com.a0mpurdy.mse.search.results.IResult;
 
 import java.util.ArrayList;
@@ -81,6 +82,8 @@ public class HymnSearchThread extends SingleSearchThread {
         String[] verseTokens = TokenHelper.tokenizeString(verse.getVerseText());
 
         Log.d("TEST", TokenHelper.getTokensAsString(verseTokens));
+
+        Log.d("TEST result", SearchMatch.search(SearchType.CONTAINS, verseTokens, criteria.getTokens()) + "");
 
     }
 
