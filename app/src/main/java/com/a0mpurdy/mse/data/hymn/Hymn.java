@@ -51,4 +51,8 @@ public class Hymn implements Serializable {
         }
         return verseText.toString();
     }
+
+    public ArrayList<HymnVerse> getVerses() {
+        return verses;
+    }
 }

@@ -10,11 +10,7 @@ import java.util.regex.Pattern;
  */
 public class Result implements IResult {
 
-    Author author;
     Reference reference;
-
-    String[] searchWords;
-
     String text;
 
     private boolean newHymnBook;
@@ -22,22 +18,23 @@ public class Result implements IResult {
 
     // region constructors
 
-    public Result(Author author, Reference reference, String text, String[] searchWords) {
-        this.author = author;
+    /**
+     *
+     * @param reference reference to the location of the result
+     * @param text text of the result
+     */
+    public Result(Reference reference, String text) {
         this.reference = reference;
-        this.searchWords = searchWords;
         this.text = text;
         this.newHymnBook = false;
     }
 
-    public Result(Author author, Reference reference, String text, String[] searchWords, String hymnBookLink) {
-        this.author = author;
-        this.reference = reference;
-        this.searchWords = searchWords;
-        this.text = text;
-        this.newHymnBook = true;
-        this.hymnBookLink = hymnBookLink;
-    }
+//    public Result(Reference reference, String text, String hymnBookLink) {
+//        this.reference = reference;
+//        this.text = text;
+//        this.newHymnBook = true;
+//        this.hymnBookLink = hymnBookLink;
+//    }
 
     // endregion
 
@@ -92,7 +89,7 @@ public class Result implements IResult {
      * Print the result on the console (for debugging)
      */
     public void print() {
-        System.out.println(author.getCode() + ": " + reference.getReadableReference());
+        System.out.println(reference.getReadableReference());
         System.out.println(text);
     }
 

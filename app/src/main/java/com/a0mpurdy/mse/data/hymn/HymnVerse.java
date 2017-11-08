@@ -37,4 +37,8 @@ public class HymnVerse implements Serializable {
         }
         return verse.toString();
     }
+
+    public int getNumber() {
+        return verseNumber;
+    }
 }

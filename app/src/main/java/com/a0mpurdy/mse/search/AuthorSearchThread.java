@@ -259,7 +259,7 @@ public class AuthorSearchThread extends SingleSearchThread {
         String kjvSection = lines[1];
 
         if (searchMinistrySection(results, jndSection, asc) || searchMinistrySection(results, kjvSection, asc)) {
-            Result result = new Result(asc.author, asc.reference.copy(), section, asc.getSearchWords());
+            Result result = new Result(asc.reference.copy(), section);
             results.add(result);
             asc.incrementResults();
             validSection = true;

@@ -52,4 +52,12 @@ public class HymnBook implements Serializable, IHymnBook {
         }
         return null;
     }
+
+    public int getId() {
+        return 1962;
+    }
+
+    public ArrayList<Hymn> getHymns() {
+        return hymns;
+    }
 }

@@ -5,13 +5,17 @@ import android.util.Log;
 
 import com.a0mpurdy.mse.common.log.LogLevel;
 import com.a0mpurdy.mse.common.log.LogRow;
+import com.a0mpurdy.mse.data.author.Author;
 import com.a0mpurdy.mse.data.author.AuthorIndex;
+import com.a0mpurdy.mse.data.hymn.Hymn;
 import com.a0mpurdy.mse.data.hymn.HymnBook;
 import com.a0mpurdy.mse.data.hymn.HymnVerse;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 import com.a0mpurdy.mse.search.criteria.SearchCriteria;
 import com.a0mpurdy.mse.search.criteria.SearchType;
 import com.a0mpurdy.mse.search.results.IResult;
+import com.a0mpurdy.mse.search.results.Result;
+import com.a0mpurdy.mse.search.source.Reference;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,7 @@ public class HymnSearchThread extends SingleSearchThread {
 
     SearchCriteria criteria;
     AuthorIndex authorIndex;
+    ArrayList<IResult> results;
     ArrayList<LogRow> logRows;
     HymnBookCache cache;
     AssetManager am;
@@ -33,6 +38,7 @@ public class HymnSearchThread extends SingleSearchThread {
         this.criteria = criteria;
         this.authorIndex = authorIndex;
         logRows = new ArrayList<>();
+        results = new ArrayList<>();
         this.cache = cache;
         this.am = am;
     }
@@ -43,19 +49,8 @@ public class HymnSearchThread extends SingleSearchThread {
         Log.d("SEARCH", TokenHelper.getTokensAsString(criteria.getTokens()));
 
         searchVerse(cache.getHymnBook("hymns1962.ser", am).getHymn(7).getVerse(1));
-    }
 
-    /**
-     * Get the frequency of each token in the search criteria
-     *
-     * @param searchTokens tokens to check the frequency of
-     */
-    int[] getTokenFrequencies(String[] searchTokens) {
-        int[] freq = new int[searchTokens.length];
-        for (int i = 0; i < searchTokens.length; i++) {
-            freq[i] = authorIndex.getTokenCount(searchTokens[i]);
-        }
-        return freq;
+        short[] refs = authorIndex.getOverlappingReferences(criteria.getTokens(), TOO_FREQUENT);
     }
 
     /**
@@ -77,6 +72,10 @@ public class HymnSearchThread extends SingleSearchThread {
         return false;
     }
 
+    /**
+     * Get the results from a verse
+     * @param verse
+     */
     void searchVerse(HymnVerse verse) {
 
         String[] verseTokens = TokenHelper.tokenizeString(verse.getVerseText());
@@ -84,6 +83,12 @@ public class HymnSearchThread extends SingleSearchThread {
         Log.d("TEST", TokenHelper.getTokensAsString(verseTokens));
 
         Log.d("TEST result", SearchMatch.search(SearchType.CONTAINS, verseTokens, criteria.getTokens()) + "");
+
+        if(SearchMatch.search(SearchType.CONTAINS, verseTokens, criteria.getTokens())) {
+            Reference ref = new Reference(Author.HYMNS, verse.getParentHymn().getParentHymnBook().getId(), verse.getParentHymn().getNumber(), verse.getNumber(), 0);
+
+            results.add(new Result(ref, verse.getVerseText()));
+        }
 
     }
 
@@ -94,7 +99,7 @@ public class HymnSearchThread extends SingleSearchThread {
 
     @Override
     ArrayList<IResult> getResults() {
-        return null;
+        return results;
     }
 
     @Override
