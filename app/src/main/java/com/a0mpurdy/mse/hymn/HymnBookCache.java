@@ -28,32 +28,20 @@ public class HymnBookCache implements Serializable {
         this.hymnBooks = new HashMap<>();
     }
 
-    public HymnBook getHymnBook(String name, AssetManager am) {
+    public HymnBook getHymnBook(String name, AssetManager am) throws IOException, ClassNotFoundException {
         HymnBook hymnBookInCache = hymnBooks.get(name);
         if (hymnBookInCache != null) {
             return hymnBookInCache;
         }
-        try {
-            return cacheNewHymnBookAsset(name, am);
-        } catch (IOException e) {
-            Log.e("[ERROR]", e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+        return cacheNewHymnBookAsset(name, am);
     }
 
-    private HymnBook cacheNewHymnBookAsset(String name, AssetManager am) throws IOException {
+    private HymnBook cacheNewHymnBookAsset(String name, AssetManager am) throws IOException, ClassNotFoundException {
         Log.d("[DEBUG   ]", "cacheNewHymnBookAsset: " + name);
         FileInputStream fis = am.openFd("hymns/" + name).createInputStream();
         ObjectInputStream ois = new ObjectInputStream(fis);
-        try {
-            HymnBook hymnbook = (HymnBook) ois.readObject();
-            return hymnbook;
-        } catch (ClassNotFoundException e) {
-            Log.e("[ERROR]", e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+        HymnBook hymnbook = (HymnBook) ois.readObject();
+        return hymnbook;
     }
 
     private AuthorIndex readIndex(AssetManager am) {

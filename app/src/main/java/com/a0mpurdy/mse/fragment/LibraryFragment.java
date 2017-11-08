@@ -12,6 +12,8 @@ import android.widget.Button;
 import com.a0mpurdy.mse.R;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
+import java.io.IOException;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -76,12 +78,16 @@ public class LibraryFragment extends Fragment {
         // https://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         view.findViewById(R.id.hymns_library).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mHymnBookCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_home, HymnBooksFragment.newInstance(mHymnBookCache))
-                        .addToBackStack("hymn books")
-                        .commit();
+                try {
+                    mHymnBookCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_home, HymnBooksFragment.newInstance(mHymnBookCache))
+                            .addToBackStack("hymn books")
+                            .commit();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

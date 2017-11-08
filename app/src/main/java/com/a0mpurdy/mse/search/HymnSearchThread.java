@@ -17,6 +17,7 @@ import com.a0mpurdy.mse.search.results.IResult;
 import com.a0mpurdy.mse.search.results.Result;
 import com.a0mpurdy.mse.search.source.Reference;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -48,7 +49,12 @@ public class HymnSearchThread extends SingleSearchThread {
 
         Log.d("SEARCH", TokenHelper.getTokensAsString(criteria.getTokens()));
 
-        searchVerse(cache.getHymnBook("hymns1962.ser", am).getHymn(7).getVerse(1));
+        try {
+            HymnBook book = cache.getHymnBook("hymns1962.ser", am);
+            searchVerse(book.getHymn(7).getVerse(1));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         short[] refs = authorIndex.getOverlappingReferences(criteria.getTokens(), TOO_FREQUENT);
     }
