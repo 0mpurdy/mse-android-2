@@ -12,15 +12,20 @@ public class SearchCriteria {
     private boolean wildSearch;
     private SearchType searchType;
     private SearchScope searchScope;
+    String[] searchTokens;
 
     public SearchCriteria(SearchType searchType, SearchScope searchScope, String searchString) {
         this.searchString = searchString;
         this.searchType = searchType;
         this.searchScope = searchScope;
-        setWildSearch();
+        checkWildCard();
+        makeTokens();
     }
 
-    private void setWildSearch() {
+    /**
+     * Check if the current search is a wildcard search
+     */
+    private void checkWildCard() {
 
         ArrayList<Integer> starIndexes = new ArrayList<>();
 
@@ -43,14 +48,41 @@ public class SearchCriteria {
 
     }
 
+    /**
+     * Convert the search string into a list of search tokens
+     *
+     * Tokens are uppercase, eg: Adam -> ADAM
+     */
+    private void makeTokens() {
+        searchTokens = searchString.toUpperCase().split(" ");
+        // TODO: handle non letter characters
+        // TODO: handle wildcard search (create list of matching words)
+    }
+
+    /**
+     * Get a list of all the search tokens for this criteria
+     */
+    public String[] getTokens() {
+        return searchTokens;
+    }
+
+    /**
+     * Get if the current search is a wildcard search
+     */
     public boolean getWildSearch() {
         return wildSearch;
     }
 
+    /**
+     * Get the search string of this search
+     */
     public String getSearchString() {
         return searchString;
     }
 
+    /**
+     * Get the scope of this search
+     */
     public SearchScope getSearchScope() {
         return searchScope;
     }

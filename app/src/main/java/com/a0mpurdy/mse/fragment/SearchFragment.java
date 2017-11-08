@@ -10,10 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.search.criteria.SearchCriteria;
+import com.a0mpurdy.mse.search.criteria.SearchScope;
+import com.a0mpurdy.mse.search.criteria.SearchType;
 
 /**
  * A fragment with a Google +1 button.
@@ -35,6 +39,8 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EditText searchBar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,15 +83,21 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        searchBar = view.findViewById(R.id.search_bar);
+
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.search_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "hymns1973", Snackbar.LENGTH_LONG)
+
+                // get search string from view
+                String searchString = searchBar.getText().toString();
+                SearchCriteria criteria = new SearchCriteria(SearchType.CONTAINS, SearchScope.PARAGRAPH, searchString);
+
+                // popup toast of search string
+                Snackbar.make(view, criteria.getSearchString(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                hymnBookCache = new HymnBookCache();
-                hymnBookCache.getIndex(getActivity().getAssets());
-                Log.d("[TEST]", hymnBookCache.getHymnBook("hymns1973.ser", getActivity().getAssets()).getNumHymns() + "");
+
             }
         });
 
