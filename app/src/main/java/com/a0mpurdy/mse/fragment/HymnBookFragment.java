@@ -10,8 +10,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.a0mpurdy.mse.Home;
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
+import com.a0mpurdy.mse.hymn.HymnBookCache;
+import com.a0mpurdy.mse.search.source.Reference;
+import com.a0mpurdy.mse_core.data.author.Author;
 import com.a0mpurdy.mse_core.data.hymn.HymnBook;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,9 +31,10 @@ import com.a0mpurdy.mse_core.data.hymn.HymnBook;
 public class HymnBookFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_HYMN_BOOK = "hymnBook";
+    private static final String ARG_REFERENCE = "reference";
 
     // TODO: Rename and change types of parameters
+    private HymnBookCache cache;
     private HymnBook mHymnBook;
 
     private EditText mHymnNumber;
@@ -41,14 +49,14 @@ public class HymnBookFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param cache Hymn book cache
+     * @param reference reference to the hymn book
      * @return A new instance of fragment HymnBooksFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HymnBookFragment newInstance(HymnBook cache) {
+    public static HymnBookFragment newInstance(Reference reference) {
         HymnBookFragment fragment = new HymnBookFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_HYMN_BOOK, cache);
+        args.putSerializable(ARG_REFERENCE, reference);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +65,14 @@ public class HymnBookFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mHymnBook = (HymnBook) getArguments().getSerializable(ARG_HYMN_BOOK);
+            Reference reference = (Reference) getArguments().getSerializable(ARG_REFERENCE);
+            Home home = (Home) getActivity();
+            cache = home.getHymnCache();
+            try {
+                mHymnBook = cache.getHymnBook(reference.volNum, new AssetManagerWrapper(home.getAssets()));
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -81,9 +96,12 @@ public class HymnBookFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     hymnNumber = 1;
                 }
+
+                Reference ref = new Reference(Author.HYMNS, mHymnBook.getId(), hymnNumber, 0, 0);
+
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_home, HymnFragment.newInstance(mHymnBook.getHymn(hymnNumber)))
+                        .replace(R.id.content_home, HymnFragment.newInstance(ref))
                         .addToBackStack("hymn number " + hymnNumber)
                         .commit();
             }

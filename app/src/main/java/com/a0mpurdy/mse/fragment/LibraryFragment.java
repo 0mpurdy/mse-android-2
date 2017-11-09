@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 import java.io.IOException;
@@ -79,10 +80,10 @@ public class LibraryFragment extends Fragment {
         view.findViewById(R.id.hymns_library).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    mHymnBookCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
+                    mHymnBookCache.getHymnBook("hymns1962.ser", new AssetManagerWrapper(getActivity().getAssets()));
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.content_home, HymnBooksFragment.newInstance(mHymnBookCache))
+                            .replace(R.id.content_home, HymnBooksFragment.newInstance())
                             .addToBackStack("hymn books")
                             .commit();
                 } catch (IOException | ClassNotFoundException e) {

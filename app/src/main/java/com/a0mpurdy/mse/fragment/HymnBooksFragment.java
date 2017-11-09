@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.a0mpurdy.mse.R;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
+import com.a0mpurdy.mse.search.source.Reference;
+import com.a0mpurdy.mse_core.data.author.Author;
 import com.a0mpurdy.mse_core.data.hymn.HymnBook;
 
 import java.io.IOException;
@@ -27,10 +29,8 @@ import java.io.IOException;
 public class HymnBooksFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_CACHE = "cache";
 
     // TODO: Rename and change types of parameters
-    private HymnBookCache mCache;
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,14 +42,12 @@ public class HymnBooksFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param cache Hymn book cache
      * @return A new instance of fragment HymnBooksFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HymnBooksFragment newInstance(HymnBookCache cache) {
+    public static HymnBooksFragment newInstance() {
         HymnBooksFragment fragment = new HymnBooksFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CACHE, cache);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,11 +55,6 @@ public class HymnBooksFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mCache = (HymnBookCache) getArguments().getSerializable(ARG_CACHE);
-        } else {
-            mCache = new HymnBookCache();
-        }
     }
 
     @Override
@@ -71,42 +64,39 @@ public class HymnBooksFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_hymn_books, container, false);
         LinearLayout booksLayout = v.findViewById(R.id.hymn_books);
 
-        String[] years = new String[]{"1903", "1932", "1951", "1962", "1973"};
+        int[] years = new int[]{1903, 1932, 1951, 1962, 1973};
 
-        for (String year : years) {
+        for (int year : years) {
+            final int currentYear = year;
             Button yearButton = new Button(getActivity());
-            yearButton.setText(year);
+            yearButton.setText(year + "");
             final String serialName = "hymns" + year + ".ser";
             yearButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    try {
-                        mCache.getHymnBook(serialName, getActivity().getAssets());
-                        getFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.content_home, HymnBookFragment.newInstance(mCache.getHymnBook(serialName, getActivity().getAssets())))
-                                .addToBackStack(serialName)
-                                .commit();
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    Reference ref = new Reference(Author.HYMNS, currentYear, 0, 0, 0);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_home, HymnBookFragment.newInstance(ref))
+                            .addToBackStack(serialName)
+                            .commit();
                 }
             });
             booksLayout.addView(yearButton);
         }
-
-        v.findViewById(R.id.hymn1962_button).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                try {
-                    HymnBook book = mCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.content_home, HymnBookFragment.newInstance(book))
-                            .commit();
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//
+//        v.findViewById(R.id.hymn1962_button).setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                try {
+//                    HymnBook book = mCache.getHymnBook("hymns1962.ser", getActivity().getAssets());
+//                    getFragmentManager()
+//                            .beginTransaction()
+//                            .replace(R.id.content_home, HymnBookFragment.newInstance(book))
+//                            .commit();
+//                } catch (IOException | ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
         return v;
     }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 import com.a0mpurdy.mse.R;
@@ -100,7 +101,7 @@ public class SearchFragment extends Fragment {
                 // create search criteria
                 SearchCriteria criteria = new SearchCriteria(SearchType.CONTAINS, SearchScope.PARAGRAPH, searchString);
 
-                HymnSearchThread sThread = new HymnSearchThread(criteria, hymnBookCache.getIndex(getActivity().getAssets()), hymnBookCache, getActivity().getAssets());
+                HymnSearchThread sThread = new HymnSearchThread(criteria, hymnBookCache.getIndex(new AssetManagerWrapper(getActivity().getAssets())), hymnBookCache, getActivity().getAssets());
 
                 sThread.run();
 

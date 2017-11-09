@@ -2,12 +2,14 @@ package com.a0mpurdy.mse.search.source;
 
 import com.a0mpurdy.mse_core.data.author.Author;
 
+import java.io.Serializable;
+
 /**
  * A reference to a search result
  *
  * @author michaelpurdy
  */
-public class Reference {
+public class Reference implements Serializable {
 
     private Author author;
 

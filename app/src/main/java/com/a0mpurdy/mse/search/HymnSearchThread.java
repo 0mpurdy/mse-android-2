@@ -3,6 +3,7 @@ package com.a0mpurdy.mse.search;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
 import com.a0mpurdy.mse_core.log.LogLevel;
 import com.a0mpurdy.mse_core.log.LogRow;
 import com.a0mpurdy.mse_core.data.author.Author;
@@ -50,7 +51,7 @@ public class HymnSearchThread extends SingleSearchThread {
         Log.d("SEARCH", TokenHelper.getTokensAsString(criteria.getTokens()));
 
         try {
-            HymnBook book = cache.getHymnBook("hymns1962.ser", am);
+            HymnBook book = cache.getHymnBook("hymns1962.ser", new AssetManagerWrapper(am));
             searchVerse(book.getHymn(7).getVerse(1));
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

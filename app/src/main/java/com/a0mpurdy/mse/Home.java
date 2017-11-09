@@ -16,6 +16,7 @@ import com.a0mpurdy.mse.fragment.HymnBooksFragment;
 import com.a0mpurdy.mse.fragment.HymnFragment;
 import com.a0mpurdy.mse.fragment.LibraryFragment;
 import com.a0mpurdy.mse.fragment.SearchFragment;
+import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -27,6 +28,7 @@ public class Home extends AppCompatActivity
 
     private SearchFragment searchFragment;
     private LibraryFragment libraryFragment;
+    transient private HymnBookCache mCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mCache = new HymnBookCache();
 
         searchFragment = new SearchFragment();
         getFragmentManager().beginTransaction()
@@ -117,5 +121,9 @@ public class Home extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
         // Fix for error: must implement OnFragmentInteractionListener
         // https://stackoverflow.com/questions/24777985/how-to-implement-onfragmentinteractionlistener
+    }
+
+    public HymnBookCache getHymnCache() {
+        return mCache;
     }
 }

@@ -10,9 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.a0mpurdy.mse.Home;
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
+import com.a0mpurdy.mse.hymn.HymnBookCache;
+import com.a0mpurdy.mse.search.source.Reference;
+import com.a0mpurdy.mse_core.data.author.Author;
 import com.a0mpurdy.mse_core.data.hymn.Hymn;
 import com.a0mpurdy.mse_core.data.hymn.HymnBook;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,10 +32,11 @@ import com.a0mpurdy.mse_core.data.hymn.HymnBook;
 public class HymnFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_HYMN = "hymn";
+    private static final String ARG_REFERENCE = "reference";
 
     // TODO: Rename and change types of parameters
     private Hymn mHymn;
+    private HymnBookCache cache;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,14 +48,14 @@ public class HymnFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param hymn Hymn book cache
+     * @param reference reference to the hymn this fragment displays
      * @return A new instance of fragment HymnFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HymnFragment newInstance(Hymn hymn) {
+    public static HymnFragment newInstance(Reference reference) {
         HymnFragment fragment = new HymnFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_HYMN, hymn);
+        args.putSerializable(ARG_REFERENCE, reference);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +65,13 @@ public class HymnFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mHymn = (Hymn) getArguments().getSerializable(ARG_HYMN);
+            Reference ref = (Reference) getArguments().getSerializable(ARG_REFERENCE);
+            try {
+                cache = ((Home) getActivity()).getHymnCache();
+                mHymn = cache.getHymnBook(ref.volNum, new AssetManagerWrapper(getActivity().getAssets())).getHymn(ref.pageNum);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -135,9 +149,11 @@ class ChangeHymnListener implements View.OnClickListener {
     public void onClick(View v) {
         HymnBook parent = mHymn.getParentHymnBook();
         try {
+            // check that hymn is accessible before switching fragments
             Hymn newHym = parent.getHymn(mHymn.getNumber() + mChange);
+            Reference ref = new Reference(Author.HYMNS, parent.getId(), mHymn.getNumber() + mChange, 0, 0);
             fm.beginTransaction()
-                    .replace(R.id.content_home, HymnFragment.newInstance(newHym))
+                    .replace(R.id.content_home, HymnFragment.newInstance(ref))
                     .commit();
         } catch (IndexOutOfBoundsException ignored) {
 

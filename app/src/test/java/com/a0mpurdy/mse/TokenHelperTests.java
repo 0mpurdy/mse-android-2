@@ -15,37 +15,44 @@ public class TokenHelperTests {
 
     @Test
     public void tokenizeString_Single() throws Exception {
-        assertArrayEquals(TokenHelper.tokenizeString("One"), new String[]{"ONE"});
+        String[] result = TokenHelper.tokenizeString("One");
+        assertArrayEquals(new String[]{"ONE"}, result);
     }
 
     @Test
     public void tokenizeString_Multiple() throws Exception {
-        assertArrayEquals(TokenHelper.tokenizeString("Two tokens"), new String[]{"TWO", "TOKENS"});
+        String[] result = TokenHelper.tokenizeString("Two tokens");
+        assertArrayEquals(new String[]{"TWO", "TOKENS"}, result);
     }
 
     @Test
     public void tokenizeString_NonStandard() throws Exception {
-        assertArrayEquals(TokenHelper.tokenizeString("heav'n"), new String[]{"HEAVN"});
+        String[] result = TokenHelper.tokenizeString("heav'n");
+        assertArrayEquals(new String[]{"HEAVN"}, result);
     }
 
     @Test
     public void tokenizeString_splitLine() throws Exception {
-        assertArrayEquals(TokenHelper.tokenizeString("Two\ntokens"), new String[]{"TWO", "TOKENS"});
+        String[] result = TokenHelper.tokenizeString("Two\ntokens");
+        assertArrayEquals(new String[]{"TWO", "TOKENS"}, result);
     }
 
     @Test
     public void tokenizeString_withEmptySpaces() throws Exception {
-        assertArrayEquals(TokenHelper.tokenizeString("Two     tokens"), new String[]{"TWO", "TOKENS"});
+        String[] result = TokenHelper.tokenizeString("Two     tokens");
+        assertArrayEquals(new String[]{"TWO", "TOKENS"}, result);
     }
 
     @Test
     public void getTokensAsString_single() throws Exception {
-        assertEquals(TokenHelper.getTokensAsString(new String[]{"ONE"}), "ONE");
+        String result = TokenHelper.getTokensAsString(new String[]{"ONE"});
+        assertEquals("ONE", result);
     }
 
     @Test
     public void getTokensAsString_multiple() throws Exception {
-        assertEquals(TokenHelper.getTokensAsString(new String[]{"TWO", "TOKENS"}), "TWO, TOKENS");
+        String result = TokenHelper.getTokensAsString(new String[]{"TWO", "TOKENS"});
+        assertEquals("TWO, TOKENS", result);
     }
 
 }
