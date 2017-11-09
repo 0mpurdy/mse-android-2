@@ -134,11 +134,13 @@ class ChangeHymnListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         HymnBook parent = mHymn.getParentHymnBook();
-        Hymn newHym = parent.getHymn(mHymn.getNumber() + mChange);
-        if (newHym != null) {
+        try {
+            Hymn newHym = parent.getHymn(mHymn.getNumber() + mChange);
             fm.beginTransaction()
                     .replace(R.id.content_home, HymnFragment.newInstance(newHym))
                     .commit();
+        } catch (IndexOutOfBoundsException ignored) {
+
         }
     }
 
