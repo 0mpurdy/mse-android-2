@@ -16,11 +16,15 @@ import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
 import com.a0mpurdy.mse.hymn.HymnBookCache;
 
 import com.a0mpurdy.mse.R;
+import com.a0mpurdy.mse.hymn.ObjectStreamer;
 import com.a0mpurdy.mse.search.HymnSearchThread;
 import com.a0mpurdy.mse.search.TokenHelper;
 import com.a0mpurdy.mse.search.criteria.SearchCriteria;
 import com.a0mpurdy.mse.search.criteria.SearchScope;
 import com.a0mpurdy.mse.search.criteria.SearchType;
+import com.a0mpurdy.mse_core.data.author.AuthorIndex;
+
+import java.io.IOException;
 
 /**
  * A fragment with a Google +1 button.
@@ -101,9 +105,14 @@ public class SearchFragment extends Fragment {
                 // create search criteria
                 SearchCriteria criteria = new SearchCriteria(SearchType.CONTAINS, SearchScope.PARAGRAPH, searchString);
 
-                HymnSearchThread sThread = new HymnSearchThread(criteria, hymnBookCache.getIndex(new AssetManagerWrapper(getActivity().getAssets())), hymnBookCache, getActivity().getAssets());
-
-                sThread.run();
+                try {
+                    ObjectStreamer oStreamer = new AssetManagerWrapper(getActivity().getAssets());
+                    AuthorIndex index = hymnBookCache.getIndex(oStreamer);
+                    HymnSearchThread sThread = new HymnSearchThread(criteria, index, hymnBookCache, oStreamer);
+                    sThread.run();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
 
                 // popup toast of search string
                 Snackbar.make(view, TokenHelper.getTokensAsString(criteria.getTokens()), Snackbar.LENGTH_LONG)

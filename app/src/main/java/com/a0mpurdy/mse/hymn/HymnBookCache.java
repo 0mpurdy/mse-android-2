@@ -58,19 +58,14 @@ public class HymnBookCache implements Serializable {
         return hymnbook;
     }
 
-    private AuthorIndex readIndex(ObjectStreamer os) {
-        try {
-            ObjectInputStream ois = os.open("hymns/index-hymns.idx");
-            HashMap<String, Integer> tokenCountMap = (HashMap<String, Integer>) ois.readObject();
-            HashMap<String, short[]> references = (HashMap<String, short[]>) ois.readObject();
-            return new AuthorIndex(Author.HYMNS, tokenCountMap, references);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private AuthorIndex readIndex(ObjectStreamer os) throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = os.open("hymns/index-hymns.idx");
+        HashMap<String, Integer> tokenCountMap = (HashMap<String, Integer>) ois.readObject();
+        HashMap<String, short[]> references = (HashMap<String, short[]>) ois.readObject();
+        return new AuthorIndex(Author.HYMNS, tokenCountMap, references);
     }
 
-    public AuthorIndex getIndex(ObjectStreamer os) {
+    public AuthorIndex getIndex(ObjectStreamer os) throws IOException, ClassNotFoundException {
         if (this.index == null) {
             this.index = this.readIndex(os);
         }

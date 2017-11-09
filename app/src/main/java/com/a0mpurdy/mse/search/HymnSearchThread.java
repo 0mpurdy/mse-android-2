@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.a0mpurdy.mse.hymn.AssetManagerWrapper;
+import com.a0mpurdy.mse.hymn.ObjectStreamer;
 import com.a0mpurdy.mse_core.log.LogLevel;
 import com.a0mpurdy.mse_core.log.LogRow;
 import com.a0mpurdy.mse_core.data.author.Author;
@@ -34,15 +35,15 @@ public class HymnSearchThread extends SingleSearchThread {
     ArrayList<IResult> results;
     ArrayList<LogRow> logRows;
     HymnBookCache cache;
-    AssetManager am;
+    ObjectStreamer oStreamer;
 
-    public HymnSearchThread(SearchCriteria criteria, AuthorIndex authorIndex, HymnBookCache cache, AssetManager am) {
+    public HymnSearchThread(SearchCriteria criteria, AuthorIndex authorIndex, HymnBookCache cache, ObjectStreamer oStreamer) {
         this.criteria = criteria;
         this.authorIndex = authorIndex;
         logRows = new ArrayList<>();
         results = new ArrayList<>();
         this.cache = cache;
-        this.am = am;
+        this.oStreamer = oStreamer;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class HymnSearchThread extends SingleSearchThread {
         Log.d("SEARCH", TokenHelper.getTokensAsString(criteria.getTokens()));
 
         try {
-            HymnBook book = cache.getHymnBook("hymns1962.ser", new AssetManagerWrapper(am));
+            HymnBook book = cache.getHymnBook("hymns1962.ser", oStreamer);
             searchVerse(book.getHymn(7).getVerse(1));
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
